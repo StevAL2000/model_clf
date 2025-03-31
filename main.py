@@ -16,4 +16,6 @@ from example_bot.app.app2 import print_2
 
 print_2.print_hello2()
 
+from example_bot import main
 
+main.print_hello3()
