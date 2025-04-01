@@ -1,7 +1,11 @@
-def print_hello3():
-    print("hola mundo 3")
-    """
-    This function prints 'hola mundo' to the console.
-    """
-    # Print 'hola mundo'
-    # This is a comment
+'Aqui vamos a colocar la lógica de nuestro bot incluyendo el modelo y el panel visual'
+
+def training():
+    pass
+def inference():
+    pass
+
+
+if __name__ == "__main__":
+    training()
+    inference()
