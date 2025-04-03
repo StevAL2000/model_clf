@@ -8,13 +8,13 @@ directorio_raiz = os.path.dirname(directorio_actual)
 # Agrega el directorio raíz al sys.path
 sys.path.append(directorio_raiz)
 
-from example_bot.app import print
+#from example_bot.app import print
 
-print.print_hello()
+#print.print_hello()
 
-from example_bot.app.app2 import print_2
+#from example_bot.app.app2 import print_2
 
-print_2.print_hello2()
+#print_2.print_hello2()
 
 from example_bot import main
 
