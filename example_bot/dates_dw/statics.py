@@ -78,7 +78,7 @@ def descargar_historial_binance_futures(symbol, timeframe, start_date, end_date,
         df[col] = pd.to_numeric(df[col])
 
     # Guardamos el DataFrame en un archivo CSV
-    output_dir = os.path.join(os.path.dirname(__file__), "..", "provisional_bd")
+    output_dir = os.path.join(os.path.dirname(__file__), "..", "local_bd")
     os.makedirs(output_dir, exist_ok=True)
     output_path = os.path.join(output_dir, filename)
     df.to_csv(output_path, index=False)
