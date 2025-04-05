@@ -1,65 +1,127 @@
 import tkinter as tk
-from tkinter import ttk
 import os
+import window_2
 
-# Obtener la ruta absoluta del directorio actual
-current_dir = os.path.dirname(os.path.abspath(__file__))
-
-# Construir la ruta completa del ícono
-icon_path = os.path.join(current_dir, "..", "..", "images", "icon.ico")
-
-# Crear la ventana principal
-root = tk.Tk()
-root.title("Finance")
-root.geometry("400x300")  # Tamaño de la ventana (ancho x alto)
-# Establecer el ícono de la ventana
-root.iconbitmap(icon_path)
-# Cambiar el color de fondo de la ventana
-root.configure(bg="white")
-
-# Etiqueta
-label = tk.Label(root, text="¡Bienvenido a la interfaz gráfica!", font=("Arial", 14), bg="white")
-label.pack(pady=10)  # Agregar espacio vertical
-
-# Crear un marco para organizar los botones y las flechas
-frame = tk.Frame(root, bg="white")
-frame.pack(pady=20)
-
-# Funciones para cambiar el estilo del botón al pasar el mouse y al presionarlo
-def on_enter(event):
-    event.widget.config(bg="lightblue")
-
-def on_leave(event):
-    event.widget.config(bg="white")
-
-def on_press(event):
-    event.widget.config(bg="white", relief="sunken")
-
-def on_release(event):
-    event.widget.config(bg="white", relief="flat")
-
-# Crear los botones y las flechas
-for i in range(4):
-    # Crear un marco para cada fila (flecha + botón)
-    row_frame = tk.Frame(frame, bg="white")
-    row_frame.pack(fill="x", pady=5)
-
-    # Crear la flecha
-    arrow_canvas = tk.Canvas(row_frame, width=20, height=20, bg="white", highlightthickness=0)
-    arrow_canvas.pack(side="left", padx=5)
-    arrow_canvas.create_line(5, 5, 15, 10, fill="black", width=2)  # Línea diagonal superior
-    arrow_canvas.create_line(5, 15, 15, 10, fill="black", width=2)  # Línea diagonal inferior
-
-    # Crear el botón
-    button = tk.Button(row_frame, text=f"Botón {i + 1}", relief="flat", highlightthickness=0, bg="white")
-    button.pack(side="left", padx=10)
-
-    # Asociar eventos para cambiar el estilo del botón
-    button.bind("<Enter>", on_enter)
-    button.bind("<Leave>", on_leave)
-
-    button.bind("<ButtonRelease-1>", on_release)
+class Style:
+    """
+    Clase padre que define los estilos compartidos.
+    """
+    ventana_bg = "#b0f6b7"
+    boton_bg = "#d7ffbf"
+    boton_hover_bg = "#b8fe8e"
+    boton_click_bg = "#f9f1e8"
+    etiqueta_fg = "Black"
+    etiqueta_hover_fg = "#006333"
+    tooltip_bg = "white"
 
 
-# Iniciar el bucle principal de la aplicación
-root.mainloop()
+class FinanceApp(Style):
+    """
+    Clase principal que representa la aplicación de la ventana de finance.
+    """
+    def __init__(self, root):
+        self.root = root
+        self.setup_window()
+        self.create_widgets()
+
+    def setup_window(self):
+        """
+        Configura la ventana principal de la aplicación.
+        """
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        icon_path = os.path.join(current_dir, "..", "..", "images", "icon.ico")
+
+        self.root.title("Finance")
+        self.root.geometry("300x275")
+        self.root.iconbitmap(icon_path)
+        self.root.configure(bg=self.ventana_bg)
+        self.root.resizable(False, False)
+        self.center_window()
+
+    def center_window(self):
+        """
+        Centra la ventana en la pantalla.
+        """
+        self.root.update_idletasks()
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+        size = tuple(int(_) for _ in self.root.geometry().split('+')[0].split('x'))
+        x = (screen_width - size[0]) // 2
+        y = (screen_height - size[1]) // 2
+        self.root.geometry(f"{size[0]}x{size[1]}+{x}+{y}")
+
+    def create_widgets(self):
+        """
+        Crea y organiza los widgets de la ventana.
+        """
+        label = tk.Label(self.root, text="Menu", font=("Arial", 22, "bold"), bg=self.ventana_bg, fg=self.etiqueta_fg)
+        label.pack(pady=(20, 0))
+
+        frame = tk.Frame(self.root, bg=self.boton_bg)
+        frame.pack(pady=20, side='left', padx=40)
+
+        buttons = ['Real-Time Signals', 'Backtest Create', 'Backtest Visual', 'Exit']
+        for i in range(len(buttons)):
+            name_b = buttons[i]
+            self.create_row(frame, i, name_b)
+
+        label.bind("<Enter>", self.on_enter_label)
+        label.bind("<Leave>", self.on_leave_label)
+
+    def create_row(self, parent, index, name_b):
+        """
+        Crea una fila con una flecha, un botón 
+        """
+        row_frame = tk.Frame(parent, bg=self.boton_bg)
+        row_frame.pack(fill="x", pady=5)
+
+        button = tk.Button(row_frame, text=f"{name_b}", relief="flat", highlightthickness=0, bg=self.boton_bg, font=("Arial", 14), command=lambda: self.handle_button_click(index))
+        button.pack(side="left", padx=5)
+        button.config(borderwidth=0, highlightbackground=self.boton_bg, highlightcolor=self.boton_bg, highlightthickness=0)
+        button.config(relief="flat", overrelief="flat", width=18, height=1, padx=10, pady=2, cursor="hand2")
+
+        button.bind("<Enter>", self.on_enter)
+        button.bind("<Leave>", self.on_leave)
+        button.bind("<ButtonRelease-1>", self.on_release)
+
+    def handle_button_click(self, index):
+            """
+            Maneja los clics en los botones.
+            """
+            if index == 0:  # Botón "Option 1"
+                self.root.destroy()  # Cierra la ventana actual
+                from window_2 import NewWindow  # Importa la clase de la ventana principal
+                root = tk.Tk()
+                app = NewWindow(root)  # Crea una instancia de la ventana principal
+                root.mainloop()
+                
+            elif index == 3:  # Botón "Exit"
+                self.root.destroy()  # Cierra la ventana actual
+            else:
+                print(f"Button {index + 1} clicked")
+
+    @staticmethod
+    def on_enter(event):
+        event.widget.config(bg=Style.boton_hover_bg)
+
+    @staticmethod
+    def on_leave(event):
+        event.widget.config(bg=Style.boton_bg)
+
+    @staticmethod
+    def on_release(event):
+        event.widget.config(bg=Style.boton_click_bg, relief="flat")
+
+    @staticmethod
+    def on_enter_label(event):
+        event.widget.config(fg=Style.etiqueta_hover_fg)
+
+    @staticmethod
+    def on_leave_label(event):
+        event.widget.config(fg=Style.etiqueta_fg)
+
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = FinanceApp(root)
+    root.mainloop()
