@@ -1,54 +1,15 @@
 import tkinter as tk
-import os
-import window_2
+from style import Style
 
-class Style:
+class window_1(Style):
     """
-    Clase padre que define los estilos compartidos.
-    """
-    ventana_bg = "#b0f6b7"
-    boton_bg = "#d7ffbf"
-    boton_hover_bg = "#b8fe8e"
-    boton_click_bg = "#f9f1e8"
-    etiqueta_fg = "Black"
-    etiqueta_hover_fg = "#006333"
-    tooltip_bg = "white"
-
-
-class FinanceApp(Style):
-    """
-    Clase principal que representa la aplicación de la ventana de finance.
+    Clase principal que representa el menú de la aplicación finance.
     """
     def __init__(self, root):
+        super().__init__()
         self.root = root
         self.setup_window()
         self.create_widgets()
-
-    def setup_window(self):
-        """
-        Configura la ventana principal de la aplicación.
-        """
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        icon_path = os.path.join(current_dir, "..", "..", "images", "icon.ico")
-
-        self.root.title("Finance")
-        self.root.geometry("300x275")
-        self.root.iconbitmap(icon_path)
-        self.root.configure(bg=self.ventana_bg)
-        self.root.resizable(False, False)
-        self.center_window()
-
-    def center_window(self):
-        """
-        Centra la ventana en la pantalla.
-        """
-        self.root.update_idletasks()
-        screen_width = self.root.winfo_screenwidth()
-        screen_height = self.root.winfo_screenheight()
-        size = tuple(int(_) for _ in self.root.geometry().split('+')[0].split('x'))
-        x = (screen_width - size[0]) // 2
-        y = (screen_height - size[1]) // 2
-        self.root.geometry(f"{size[0]}x{size[1]}+{x}+{y}")
 
     def create_widgets(self):
         """
@@ -65,12 +26,12 @@ class FinanceApp(Style):
             name_b = buttons[i]
             self.create_row(frame, i, name_b)
 
-        label.bind("<Enter>", self.on_enter_label)
+        label.bind("<Enter>", lambda event: self.on_enter_label(event))
         label.bind("<Leave>", self.on_leave_label)
 
     def create_row(self, parent, index, name_b):
         """
-        Crea una fila con una flecha, un botón 
+        Crea una fila 
         """
         row_frame = tk.Frame(parent, bg=self.boton_bg)
         row_frame.pack(fill="x", pady=5)
@@ -90,9 +51,9 @@ class FinanceApp(Style):
             """
             if index == 0:  # Botón "Option 1"
                 self.root.destroy()  # Cierra la ventana actual
-                from window_2 import NewWindow  # Importa la clase de la ventana principal
+                from window_2 import window_2  # Importa la clase de la ventana principal
                 root = tk.Tk()
-                app = NewWindow(root)  # Crea una instancia de la ventana principal
+                app = window_2(root)  # Crea una instancia de la ventana principal
                 root.mainloop()
                 
             elif index == 3:  # Botón "Exit"
@@ -100,28 +61,10 @@ class FinanceApp(Style):
             else:
                 print(f"Button {index + 1} clicked")
 
-    @staticmethod
-    def on_enter(event):
-        event.widget.config(bg=Style.boton_hover_bg)
 
-    @staticmethod
-    def on_leave(event):
-        event.widget.config(bg=Style.boton_bg)
-
-    @staticmethod
-    def on_release(event):
-        event.widget.config(bg=Style.boton_click_bg, relief="flat")
-
-    @staticmethod
-    def on_enter_label(event):
-        event.widget.config(fg=Style.etiqueta_hover_fg)
-
-    @staticmethod
-    def on_leave_label(event):
-        event.widget.config(fg=Style.etiqueta_fg)
 
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = FinanceApp(root)
+    app = window_1(root)
     root.mainloop()
