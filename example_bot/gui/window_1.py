@@ -21,7 +21,7 @@ class window_1(Style):
         frame = tk.Frame(self.root, bg=self.boton_bg)
         frame.pack(pady=20, side='left', padx=40)
 
-        buttons = ['Real-Time Signals', 'Backtest Create', 'Backtest Visual', 'Exit']
+        buttons = ['Real-Time Signals', 'Backtest Create', 'Backtest Load', 'Exit']
         for i in range(len(buttons)):
             name_b = buttons[i]
             self.create_row(frame, i, name_b)
@@ -46,21 +46,38 @@ class window_1(Style):
         button.bind("<ButtonRelease-1>", self.on_release)
 
     def handle_button_click(self, index):
+            
             """
             Maneja los clics en los botones.
             """
+
             if index == 0:  # Botón "Option 1"
                 self.root.destroy()  # Cierra la ventana actual
                 from window_2 import window_2  # Importa la clase de la ventana principal
                 root = tk.Tk()
                 app = window_2(root)  # Crea una instancia de la ventana principal
                 root.mainloop()
+
+            elif index == 1:  # Botón "Option 1"
+                self.root.destroy()  # Cierra la ventana actual
+                from window_3 import window_3  # Importa la clase de la ventana principal
+                root = tk.Tk()
+                app = window_3(root)  # Crea una instancia de la ventana principal
+                root.mainloop()
+
+            elif index == 2:  # Botón "Option 1"
+                self.root.destroy()  # Cierra la ventana actual
+                from window_4 import window_4  # Importa la clase de la ventana principal
+                root = tk.Tk()
+                app = window_4(root)  # Crea una instancia de la ventana principal
+                root.mainloop()                
                 
             elif index == 3:  # Botón "Exit"
                 self.root.destroy()  # Cierra la ventana actual
+                
             else:
-                print(f"Button {index + 1} clicked")
-
+                #print(f"Button {index + 1} clicked")
+                pass
 
 
 

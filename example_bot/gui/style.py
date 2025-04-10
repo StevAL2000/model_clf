@@ -13,7 +13,7 @@ class Style:
         self.etiqueta_hover_fg = "#006333"
         self.tooltip_bg = "white"
 
-    def setup_window(self, geometry="300x275"):
+    def setup_window(self, geometry="300x275", resizable=False):
         """
         Configura la ventana principal de la aplicación.
         """
@@ -24,7 +24,7 @@ class Style:
         self.root.geometry(geometry)
         self.root.iconbitmap(icon_path)
         self.root.configure(bg=self.ventana_bg)
-        self.root.resizable(False, False)
+        self.root.resizable(resizable, resizable)
         self.center_window()
 
     def on_enter(self,event):

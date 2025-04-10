@@ -8,20 +8,20 @@ class window_3(Style):
     def __init__(self, root):
         super().__init__()
         self.root = root
-        self.setup_window(geometry="300x275")
+        self.setup_window(geometry="475x700", resizable=True)
         self.create_widgets()
 
     def create_widgets(self):
         """
         Crea y organiza los widgets de la ventana.
         """
-        label = tk.Label(self.root, text="Menu", font=("Arial", 22, "bold"), bg=self.ventana_bg, fg=self.etiqueta_fg)
+        label = tk.Label(self.root, text="Backtest Create", font=("Arial", 22, "bold"), bg=self.ventana_bg, fg=self.etiqueta_fg)
         label.pack(pady=(20, 0))
 
         frame = tk.Frame(self.root, bg=self.boton_bg)
         frame.pack(pady=20, side='left', padx=40)
         # crea una fila con un botón
-        self.create_row(frame, 3, 'Back')
+        self.create_row(frame, 1, 'Back')
 
         label.bind("<Enter>", self.on_enter_label)
         label.bind("<Leave>", self.on_leave_label)
@@ -53,15 +53,15 @@ class window_3(Style):
                 app = window_1(root)  # Crea una instancia de la ventana principal
                 root.mainloop()
                 
-            elif index == 3:  # Botón "Back"
+            elif index == 1:  # Botón "Back"
                 self.root.destroy()  # Cierra la ventana actual
                 from window_1 import window_1  # Importa la clase de la ventana principal
                 root = tk.Tk()
                 app = window_1(root)  # Crea una instancia de la ventana principal
                 root.mainloop()
             else:
-                print(f"Button {index + 1} clicked")
-
+                #print(f"Button {index + 1} clicked")
+                pass
 
 
 
